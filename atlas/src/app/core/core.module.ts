@@ -1,12 +1,22 @@
 import { NgModule } from '@angular/core';
-import { NavHeaderComponent } from './components/nav-header/nav-header.component';
-import { NavSidebarComponent } from './components/nav-sidebar/nav-sidebar.component';
+import { CommonModule } from '@angular/common';
+import { MaterialDesignModule } from '../material-design/material-design.module';
+import { NavToolbarComponent } from './navigation/nav-toolbar/nav-toolbar.component';
+import { SidebarComponent } from './navigation/sidebar/sidebar.component';
+import { NavbarComponent } from './navigation/sidebar/navbar/navbar.component';
+import { NavbarVerticalStyleOneComponent } from './navigation/sidebar/navbar/navbar-vertical-style-one/navbar-vertical-style-one.component';
 
 
 @NgModule({
   imports: [
+    CommonModule,
+    MaterialDesignModule,
     
   ],
-  declarations: [NavHeaderComponent, NavSidebarComponent]
+  exports:[
+    NavToolbarComponent,
+    SidebarComponent
+  ],
+  declarations: [NavToolbarComponent, SidebarComponent, NavbarComponent, NavbarVerticalStyleOneComponent]
 })
 export class CoreModule { }

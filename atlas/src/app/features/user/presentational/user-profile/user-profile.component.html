@@ -1,0 +1,69 @@
+<div class="page-layout simple left-sidebar inner-sidebar inner-scroll" id="manageusers">
+
+  <div class="header mat-accent-bg p-16 p-sm-24" style="flex-direction: row; box-sizing: border-box; display: flex; max-height: 100%; place-content: center space-between; align-items: center;">
+      <div style="flex-direction: row; box-sizing: border-box; display: flex; max-height: 100%; place-content: center flex-start; align-items: center;">
+          
+          <div class="logo" style="flex-direction: row; box-sizing: border-box; display: flex; max-height: 100%; place-content: center flex-start; align-items: center;">
+              <mat-icon class="logo-icon" role="img" aria-hidden="true">
+                  account_box 
+              </mat-icon>
+              <span class="logo-text h1"> Contacts </span>
+          </div>
+      </div>
+  </div>
+
+  <div id="register-form-wrapper" class="mat-elevation-z8">
+      <div id="register-form">
+          <div class="title">
+              CREATE AN ACCOUNT
+          </div>
+          <form class="example-form" novalidate (ngSubmit)="onSubmit()" [formGroup]="userProfileForm">
+              <mat-form-field class="form-width-50">
+                <input matInput placeholder="First Name" formControlName="firstName" >
+                
+                <mat-error *ngIf="userProfileForm.get('firstName').hasError('required')">First Name is required</mat-error>
+              </mat-form-field>
+              <mat-form-field class="form-width-50">
+                  <input matInput placeholder="Last Name" formControlName="lastName" >
+                  <mat-error *ngIf="userProfileForm.get('lastName').hasError('required')">Last Name is required</mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="form-width">
+                  <input matInput [type]="email" placeholder="Email" formControlName="email" [errorStateMatcher]="matcher" >
+                  <mat-hint>(e.g) user@domain.com</mat-hint>
+                  <mat-error *ngIf="userProfileForm.get('email').hasError('email') && !userProfileForm.get('email').hasError('required')">Please enter valid email Id</mat-error>
+                  <mat-error *ngIf="userProfileForm.get('email').hasError('required')">E-mail is required</mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="form-width">
+                  <input matInput placeholder="Mobile" formControlName="mobile"  >
+                  <!-- <mat-error *ngIf="phoneFormControl.hasError('pattern') && !phoneFormControl.hasError('required')">Please enter valid Mobile No.</mat-error> -->
+                  <mat-error *ngIf="userProfileForm.get('mobile').hasError('required')">Mobile No. is required</mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="form-width">
+                  <input matInput type="password" placeholder="Password" formControlName="password" >
+                  <mat-error *ngIf="userProfileForm.get('password').hasError('required')">Password is required</mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="form-width">
+                  <input matInput type="password" placeholder="Confirm Password" formControlName="confirmPassword" >
+                  <mat-error *ngIf="userProfileForm.get('confirmPassword').hasError('required')">Confirm Password is required</mat-error>
+              </mat-form-field>
+
+              <!-- <div class="terms">
+                  <mat-checkbox matInput> &nbsp; I Accept</mat-checkbox>
+                  <a> terms and conditions</a>
+              </div> -->
+              <!-- <button type="submit" mat-raised-button color="primary">Submit</button> -->
+              <button type="submit" mat-raised-button color="primary" [disabled]="userProfileForm.invalid" >Submit</button>
+          </form>
+      </div>
+  </div>
+
+  
+<button mat-fab color="primary">Primary</button>
+</div>
+
+
+    

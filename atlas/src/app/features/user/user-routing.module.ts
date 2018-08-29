@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
-import { ManageUserProfilesComponent } from './pages/manage-user-profiles/manage-user-profiles.component';
-import { UserProfileComponent } from './pages/user-profile/user-profile.component';
-import { UserComponent } from './user.component';
+import { UserComponent } from './container/user-shell/user.component';
+import { UserProfilePageComponent } from './container/user-profile-page/user-profile-page.component';
+import { ManageUserPageComponent } from './container/manage-user-page/manage-user-page.component';
+import { ManageUserProfilesComponent } from './presentational/manage-user-profiles/manage-user-profiles.component';
+import { UserProfileComponent } from './presentational/user-profile/user-profile.component';
 
 
 const routes: Routes = [
@@ -13,11 +14,11 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: ManageUserProfilesComponent
+        component: ManageUserPageComponent
       },
       {
         path: ':id',
-        component: UserProfileComponent,
+        component: UserProfilePageComponent,
         // canDeactivate: [CanDeactivateGuard],
         // resolve: {
         //   vehicle: VehicleResolver
@@ -41,6 +42,8 @@ export class UserRoutingModule { }
 
 export const userProfileComponents = [
   UserComponent,
+  ManageUserPageComponent,
+  UserProfilePageComponent,
   ManageUserProfilesComponent,
   UserProfileComponent
 

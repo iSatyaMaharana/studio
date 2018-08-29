@@ -1,21 +1,46 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { SharedModule } from './shared/shared.module';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
+
 import { AppComponent } from './app.component';
-import { CoreModule } from './core/core.module';
 import { AppRoutingModule } from './/app-routing.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { CoreModule } from './core/core.module';
+import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
+
+import { MaterialDesignModule } from './material-design/material-design.module';
+import { LayoutComponent } from './layout/layout.component';
+import { UserInMemoryDataService } from './features/user/shared/user-in-memory-data-service';
+
+/* NgRx */
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [
     AppComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    LayoutComponent
+    
   ],
   imports: [
     BrowserModule,
-    SharedModule,
+    BrowserAnimationsModule,
     CoreModule,
-    AppRoutingModule
+    AppRoutingModule,
+    MaterialDesignModule,
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot([]),
+    StoreDevtoolsModule.instrument({
+      name: 'Atlas Client DevTools',
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
+    HttpClientInMemoryWebApiModule.forRoot(
+      UserInMemoryDataService, { dataEncapsulation: false})
   ],
   providers: [],
   bootstrap: [AppComponent]

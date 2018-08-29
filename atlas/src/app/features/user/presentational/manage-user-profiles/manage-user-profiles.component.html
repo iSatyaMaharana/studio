@@ -1,0 +1,60 @@
+<div class="page-layout simple left-sidebar inner-sidebar inner-scroll" id="manageusers">
+
+        <div class="header mat-accent-bg p-16 p-sm-24" style="flex-direction: row; box-sizing: border-box; display: flex; max-height: 100%; place-content: center space-between; align-items: center;">
+            <div style="flex-direction: row; box-sizing: border-box; display: flex; max-height: 100%; place-content: center flex-start; align-items: center;">
+                
+                <div class="logo" style="flex-direction: row; box-sizing: border-box; display: flex; max-height: 100%; place-content: center flex-start; align-items: center;">
+                    <mat-icon class="logo-icon" role="img" aria-hidden="true">
+                        account_box 
+                    </mat-icon>
+                    <span class="logo-text h1"> Contacts </span>
+                </div>
+            </div>
+        </div>
+
+        <div id="register-form-wrapper">
+                <div id="register-form">
+                    <div class="title">
+                        CREATE AN ACCOUNT
+                    </div>
+                    <form class="example-form">
+                            <mat-form-field class="form-width">
+                              <input matInput placeholder="First Name" name="firstname">
+                            </mat-form-field>
+                            <mat-form-field class="form-width">
+                                <input matInput placeholder="Last Name" name="lastname">
+                            </mat-form-field>
+          
+                            <mat-form-field class="form-width">
+                                <input matInput placeholder="Email" name="email">
+                            </mat-form-field>
+          
+                            <mat-form-field class="form-width">
+                                <input matInput placeholder="Phone" name="phone">
+                            </mat-form-field>
+          
+                            <mat-form-field class="form-width">
+                                <input matInput placeholder="Password" name="password">
+                            </mat-form-field>
+          
+                            <mat-form-field class="form-width">
+                                <input matInput placeholder="Confirm Password" name="confirmpassword">
+                            </mat-form-field>
+          
+                            <div class="terms">
+                                <mat-checkbox matInput> &nbsp; I Accept</mat-checkbox>
+                                <a> terms and conditions</a>
+                            </div>
+          
+                            
+          
+                            <button mat-raised-button color="primary" (click)="OnClickComponent()">Primary</button>
+                            
+                          
+                      </form>
+    <button mat-fab color="primary">Primary</button>
+</div>
+
+
+        
+    

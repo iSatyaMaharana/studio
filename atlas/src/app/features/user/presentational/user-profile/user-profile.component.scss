@@ -1,0 +1,87 @@
+#register-form-wrapper {
+    flex-direction: row; 
+    box-sizing: border-box; 
+    display: flex; 
+    max-height: 100%; 
+    place-content: center space-between; 
+    align-items: center;
+    width: 80%;
+    min-width: 80%;
+    max-width: 80%;
+    background: #fff;
+    -webkit-overflow-scrolling: touch;
+    margin: 5% 10% 5% 10%;
+    #register-form {
+        padding: 80px 48px 48px;
+
+        .logo {
+            width: 128px;
+            margin-bottom: 32px;
+        }
+        
+        .title {
+            font-size: 21px;
+          
+        }
+
+        form {
+            width: 100%;
+            padding-top: 32px;
+
+            .form-width {
+                width: 95%;
+                margin-right: 5%;
+            }
+
+            .form-width-50 {
+                width: 45%;
+                margin-right: 5%;
+            }
+
+            .terms {
+                font-size: 13px;
+                margin: 16px 0 32px 0;
+
+                a {
+                    margin-left: 4px;
+                }
+            }
+            mat-checkbox {
+                margin: 0;
+            }
+            a {
+                font-size: 16px;
+                margin-left: 4px;
+                background-color: transparent;
+                -webkit-text-decoration-skip: objects;
+                color: #039be5;
+                text-decoration: none;
+            }
+            button {
+                width: 100%;
+                margin: 16px auto;
+                display: block;
+            }
+
+            
+           
+        }
+        .register {
+            flex-direction: column;
+            box-sizing: border-box;
+            display: flex;
+            max-width: 100%;
+            place-content: center;
+            align-items: center;
+
+            // .text {
+
+            // }
+            // .link {
+                
+            // }
+        }
+        
+
+    }
+}

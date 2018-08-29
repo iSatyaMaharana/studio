@@ -1,0 +1,9 @@
+mat-toolbar {
+    flex-direction: row;
+    box-sizing: border-box;
+    display: flex;
+    position: relative;
+    background: inherit;
+    color: inherit;
+
+}

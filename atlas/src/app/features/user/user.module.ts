@@ -1,12 +1,27 @@
 import { NgModule } from '@angular/core';
 import { UserRoutingModule, userProfileComponents } from './user-routing.module';
+import { SharedModule } from '../../shared/shared.module';
+import { MaterialDesignModule } from './../../material-design/material-design.module';
+import { UserProfilePageComponent } from './container/user-profile-page/user-profile-page.component';
+import { ManageUserPageComponent } from './container/manage-user-page/manage-user-page.component';
+import { StoreModule } from '@ngrx/store';
+import { reducer } from './state/user.reducer';
+
+
 
 @NgModule({
   imports: [
-    UserRoutingModule
+    SharedModule,
+    UserRoutingModule,
+    MaterialDesignModule,
+    StoreModule.forFeature('users', reducer),
+    
+
   ],
   declarations: [
-    userProfileComponents
+    userProfileComponents,
+    UserProfilePageComponent,
+    ManageUserPageComponent
   ]
 })
 export class UserModule { }

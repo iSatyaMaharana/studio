@@ -1,0 +1,108 @@
+.navbar-top {
+    display: flex;
+    flex-direction: row;
+    flex: 1 0 auto;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 64px;
+    max-height: 64px;
+    height: 64px;
+    padding: 12px 12px 12px 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+
+    .logo-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .logo-text {
+        margin-left: 12px;
+        font-size: 16px;
+        font-weight: 300;
+        letter-spacing: .4px;
+        line-height: normal;
+    }
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
+}
+
+.mat-icon-button {
+    padding: 0;
+    min-width: 0;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    line-height: 40px;
+    border-radius: 50%;
+}
+
+.mat-button-ripple-round {
+    border-radius: 50%;
+    z-index: 1;
+}
+
+.mat-button-focus-overlay {
+    background-color: rgba(0,0,0,.12);
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity .2s cubic-bezier(.35,0,.25,1),background-color .2s cubic-bezier(.35,0,.25,1);
+}
+
+
+.navbar-scroll-container {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    background: linear-gradient(rgba(0,0,0,0) 30%,rgba(0,0,0,0) 30%),linear-gradient(rgba(0,0,0,.25) 0,rgba(0,0,0,0) 40%);
+    background-repeat: no-repeat;
+    background-size: 100% 40px,100% 10px;
+    background-attachment: local,scroll;
+    .navbar-content {
+        flex: 1 1 auto;
+        margin-top: 32px;
+
+        .atlas-navigation {
+            flex: 1 1 auto;
+            margin-top: 32px;        
+
+            .nav {
+                margin: 0;
+                padding: 0;
+                width: 100%;
+            }
+            
+        }
+        
+    }
+    .user {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        width: 100%;
+        padding: 24px 0 64px;
+
+        .avatar-container {
+            position: absolute;
+            top: 92px;
+            border-radius: 50%;
+            padding: 8px;
+            -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
+            left: 50%;
+
+            .avatar {
+                width: 72px;
+                height: 72px;
+                margin: 0;
+            }
+        }
+    }
+}
+

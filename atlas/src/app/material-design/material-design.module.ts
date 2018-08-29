@@ -1,13 +1,41 @@
 import { NgModule } from '@angular/core';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, MatFormFieldModule, MatGridListModule, MatCardModule, MatMenuModule, MatInputModule, MatCheckboxModule } from '@angular/material';
 
 @NgModule({
   imports: [
-    BrowserAnimationsModule,
-    NoopAnimationsModule
-
-
+   
+    LayoutModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
+    MatFormFieldModule,
+    MatGridListModule,
+    MatCardModule,
+    MatMenuModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule
+  ],
+  exports: [
+    
+    LayoutModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
+    MatFormFieldModule,
+    MatGridListModule,
+    MatCardModule,
+    MatMenuModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule
+    
   ],
   declarations: []
 })
