@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { LayoutModule } from '@angular/cdk/layout';
 
-import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, MatFormFieldModule, MatGridListModule, MatCardModule, MatMenuModule, MatInputModule, MatCheckboxModule, MatTableModule, MatPaginator, MatPaginatorModule } from '@angular/material';
+import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, MatFormFieldModule, MatGridListModule, MatCardModule, MatMenuModule, MatInputModule, MatCheckboxModule, MatTableModule, MatPaginator, MatPaginatorModule, MatSortModule } from '@angular/material';
 import { CdkTableModule } from '../../../node_modules/@angular/cdk/table';
 import { CdkTreeModule } from '../../../node_modules/@angular/cdk/tree';
 
@@ -15,6 +15,7 @@ import { CdkTreeModule } from '../../../node_modules/@angular/cdk/tree';
     CdkTreeModule,
     MatTableModule,
     MatPaginatorModule,
+    MatSortModule,
     MatToolbarModule,
     MatButtonModule,
     MatSidenavModule,
@@ -34,8 +35,9 @@ import { CdkTreeModule } from '../../../node_modules/@angular/cdk/tree';
     CdkTableModule,
     CdkTreeModule,
     MatTableModule,
-    MatToolbarModule,
     MatPaginatorModule,
+    MatSortModule,
+    MatToolbarModule,
     MatButtonModule,
     MatSidenavModule,
     MatIconModule,

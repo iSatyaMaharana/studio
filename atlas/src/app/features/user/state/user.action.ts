@@ -2,14 +2,24 @@
 import { Action } from '@ngrx/store';
 import { User } from '../shared/user';
 
-export enum UserActionType {
+export enum EnUserAction {
+    ToggleDisplayIDColumn = '[user] ToggleDisplayIDColumn',
     CreateUser = '[User] Create User',
     CreateUserSuccess = '[Product] Create User',
     CreateUserFail = '[Product] Create Fail',
 }
 
+
+export class ToggleDisplayIDColumn implements Action {
+    readonly type = EnUserAction.ToggleDisplayIDColumn;
+    /**
+     *
+     */
+    constructor(public payload : boolean) { }
+}
+
 export class CreateUser implements Action {
-    readonly type = UserActionType.CreateUser;
+    readonly type = EnUserAction.CreateUser;
     
     /**
      *
@@ -20,7 +30,7 @@ export class CreateUser implements Action {
 }
 
 export class CreateUserSuccess implements Action {
-    readonly type = UserActionType.CreateUserSuccess;
+    readonly type = EnUserAction.CreateUserSuccess;
     
     /**
      *
@@ -32,7 +42,7 @@ export class CreateUserSuccess implements Action {
 }
 
 export class CreateUserFail implements Action {
-    readonly type = UserActionType.CreateUserFail;
+    readonly type = EnUserAction.CreateUserFail;
     
     /**
      *
@@ -43,6 +53,7 @@ export class CreateUserFail implements Action {
 
 }
 
-export type UserActions = CreateUser
+export type UserActionType = CreateUser
     | CreateUserSuccess
-    | CreateUserFail;
+    | CreateUserFail
+    | ToggleDisplayIDColumn;

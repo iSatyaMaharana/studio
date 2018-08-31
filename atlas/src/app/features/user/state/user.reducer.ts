@@ -1,6 +1,6 @@
 import { User } from "../shared/user";
 import * as rootState from '../../../state/app.state';
-import { UserActions, UserActionType } from "./user.action";
+import { UserActionType, EnUserAction } from "./user.action";
 
 export interface State extends rootState.State {
     users : Array<User>;
@@ -9,7 +9,7 @@ export interface State extends rootState.State {
 export interface UserState {
     currentUserId: number;
     users: Array<User>;
-    showUserName: boolean;
+    disabledIDColumn: boolean;
     error: string;
     
 }
@@ -17,21 +17,26 @@ export interface UserState {
 const initialUserState : UserState = {
     currentUserId: null,
     users: [],
-    showUserName: false,
+    disabledIDColumn: false,
     error:''
 
 }
 
-export function reducer(state = initialUserState, action : UserActions) : UserState {
+export function reducer(state = initialUserState, action : UserActionType) : UserState {
     switch(action.type) {
-        case UserActionType.CreateUserSuccess:
+        case EnUserAction.ToggleDisplayIDColumn:
+            return {
+                ...state,
+                disabledIDColumn : action.payload
+            };
+        case EnUserAction.CreateUserSuccess:
             return {
                 ...state,
                 users : [...state.users, action.payload],
                 currentUserId: action.payload.id,
                 error : '',
             };
-        case UserActionType.CreateUserFail:
+        case EnUserAction.CreateUserFail:
             return {
                 ...state,
                 error: action.payload
