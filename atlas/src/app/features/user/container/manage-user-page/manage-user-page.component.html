@@ -1,3 +1,72 @@
-<atlas-manage-user-profiles>
-  
-</atlas-manage-user-profiles>
+<div class="page-layout simple left-sidebar inner-sidebar inner-scroll" id="manageusers">
+
+    <div class="header mat-accent-bg p-16 p-sm-24" style="flex-direction: row; box-sizing: border-box; display: flex; max-height: 100%; place-content: center space-between; align-items: center;">
+        <div style="flex-direction: row; box-sizing: border-box; display: flex; max-height: 100%; place-content: center flex-start; align-items: center;">
+            
+            <div class="logo" style="flex-direction: row; box-sizing: border-box; display: flex; max-height: 100%; place-content: center flex-start; align-items: center;">
+                <mat-icon class="logo-icon" role="img" aria-hidden="true">
+                    account_box 
+                </mat-icon>
+                <span class="logo-text h1"> Contacts </span>
+            </div>
+        </div>
+    </div>
+
+    <div id="data-table-wrapper">
+        <div id="data-table-content" class="mat-elevation-z8">
+            
+            <table mat-table [dataSource]="users" matSort>
+
+                    <!--- Note that these columns can be defined in any order.
+                          The actual rendered columns are set as a property on the row definition" -->
+                  
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="id">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
+                      <td mat-cell *matCellDef="let user"> {{user.id}} </td>
+                    </ng-container>
+                  
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="firstName">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
+                      <td mat-cell *matCellDef="let user"> {{user.firstName}} </td>
+                    </ng-container>
+                  
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="lastName">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
+                      <td mat-cell *matCellDef="let user"> {{user.lastName}} </td>
+                    </ng-container>
+                  
+                    <!-- Symbol Column -->
+                    <ng-container matColumnDef="email">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> E-mail </th>
+                      <td mat-cell *matCellDef="let user"> {{user.email}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="mobile">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Mobile </th>
+                        <td mat-cell *matCellDef="let user"> {{user.mobile}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="password">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Password </th>
+                            <td mat-cell *matCellDef="let user"> {{user.password}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="confirmPassword">
+                            <th mat-header-cell *matHeaderCellDef> Confirm Password </th>
+                            <td mat-cell *matCellDef="let user"> {{user.confirmPassword}} </td>
+                    </ng-container>
+                  
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                    
+                  </table>
+
+                  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                  
+        </div>
+    </div>
+</div>

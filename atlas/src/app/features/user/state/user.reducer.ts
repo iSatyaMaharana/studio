@@ -7,34 +7,34 @@ export interface State extends rootState.State {
 }
 
 export interface UserState {
-    currentUser: User;
+    currentUserId: number;
     users: Array<User>;
     showUserName: boolean;
+    error: string;
     
 }
 
 const initialUserState : UserState = {
-    currentUser: null,
+    currentUserId: null,
     users: [],
-    showUserName: false
+    showUserName: false,
+    error:''
+
 }
 
 export function reducer(state = initialUserState, action : UserActions) : UserState {
     switch(action.type) {
-        case UserActionType.CreateUser:
-            return {
-                ...state,
-
-            };
         case UserActionType.CreateUserSuccess:
             return {
                 ...state,
-                
+                users : [...state.users, action.payload],
+                currentUserId: action.payload.id,
+                error : '',
             };
         case UserActionType.CreateUserFail:
             return {
                 ...state,
-                
+                error: action.payload
             };
         default:
             return state;

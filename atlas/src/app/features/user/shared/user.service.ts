@@ -10,10 +10,14 @@ const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 })
 export class UserService {
 
-  private userUrl = 'api/products';
+  private userUrl = 'api/users';
   constructor(private http : HttpClient) { }
 
-  getUsers(): Observable<User[]> {
+  public users() {
+    return "data";
+  }
+
+  public getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.userUrl)
     .pipe(
       tap(users => console.log(JSON.stringify(users))),

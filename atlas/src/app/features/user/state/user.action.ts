@@ -14,7 +14,7 @@ export class CreateUser implements Action {
     /**
      *
      */
-    constructor(payload : User) {
+    constructor(public payload : User) {
         
     }
 }
@@ -25,7 +25,7 @@ export class CreateUserSuccess implements Action {
     /**
      *
      */
-    constructor(payload : User) {
+    constructor(public payload : User) {
         
     }
 
@@ -37,7 +37,7 @@ export class CreateUserFail implements Action {
     /**
      *
      */
-    constructor(payload : User) {
+    constructor(public payload : string) {
         
     }
 
@@ -45,5 +45,4 @@ export class CreateUserFail implements Action {
 
 export type UserActions = CreateUser
     | CreateUserSuccess
-    | CreateUserFail
-    ;
+    | CreateUserFail;
