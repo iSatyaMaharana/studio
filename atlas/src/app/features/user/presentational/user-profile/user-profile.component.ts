@@ -2,6 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { ErrorStateMatcher } from '@angular/material';
 import { FormControl, FormGroupDirective, NgForm, Validators, FormGroup, FormBuilder } from '@angular/forms';
 import { User } from '../../shared/user';
+import { ActivatedRoute, Router } from '@angular/router';
+import { map, tap } from 'rxjs/operators';
+import * as fromUser from '../../state/user.reducer';
+import { Store, select } from '@ngrx/store';
+import * as userActions from '../../state/user.action';
+import { EntityService } from '../../../../core/services/entity-service';
+import { UserService } from '../../shared/user.service';
 
 export class MyErrorStateMatcher extends ErrorStateMatcher {
   isErrorState(control: FormControl | null, form : FormGroupDirective | NgForm | null) {
@@ -27,15 +34,69 @@ export class UserProfileComponent implements OnInit {
 
 
   user : User;
+  id : number;
+  pageTitle: string;
 
-
-  constructor(private fb : FormBuilder) { }
+  constructor(private fb : FormBuilder,
+  private _route : ActivatedRoute,
+  private _router : Router,
+  private _store : Store<fromUser.AppState>,
+  private _entityService : EntityService,
+  private _userService : UserService) { }
   
 
   ngOnInit() {
     this.createUserProfileFormBuilder();
+    this._route.params
+      .pipe(
+        map(params => params['id']),
+        tap(id => (this.id = +id))
+      )
+      .subscribe(id => this.getUserProfile());
+
   }
 
+  private getUserProfile() {
+    if(this.id == 0) {
+      return;
+    }
+    if(this.isAddMode()) {
+      this._store.pipe(select(fromUser.getCurrentUser))
+      .subscribe(
+        currentUser => this.setUserFormValue(currentUser)
+      );
+    } else {
+      this._store.pipe(select(fromUser.getCurrentUser))
+      .subscribe(
+        currentUser => this.setUserFormValue(currentUser)
+      );
+    }
+  }
+  setUserFormValue(user : User | null) {
+    this.user = user;
+    if(this.user) {
+      this.userProfileForm.reset();
+      // Display the appropriate page title
+      if (this.user.id === 0) {
+        this.pageTitle = 'Add Product';
+      } else {
+        this.pageTitle = `Edit Product: ${this.user.firstName}`;
+      }
+
+      //this.userProfileForm.value = { ...user };
+
+      this.userProfileForm.patchValue(this._entityService.clone<User>(this.user));
+
+    }
+
+    
+  }
+
+  private isAddMode(): boolean {
+    return isNaN(this.id);
+  }
+
+  
   private createUserProfileFormBuilder() {
     this.userProfileForm = this.fb.group({
       firstName: ['',[
@@ -65,6 +126,22 @@ export class UserProfileComponent implements OnInit {
   
   onSubmit() {
     console.log(this.userProfileForm.value);
+    if(this.userProfileForm.valid) {
+      if(this.userProfileForm.dirty){
+        //const user = this._entityService.clone<User>(this.userProfileForm.value);
+        this._entityService.merge(this.user, this.userProfileForm.value);
+        console.log(this.user);
+        if(this.user.id == 0) {
+          this._userService.createUser(this.user)
+          .subscribe(user => console.log(user));
+        } else {
+          this._userService.updateUser(this.user)
+          .subscribe(user => console.log(user));
+        }
+      }
+    }
+    this._store.dispatch(new userActions.ClearCurrentUser());
+    this._router.navigate(['/user']);
   }
   
 

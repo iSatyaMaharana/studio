@@ -27,7 +27,7 @@ export class UserService {
 
   createUser(user : User):Observable<User> {
     user.id = null;
-    return this.http.post<User>(this.userUrl, headers)
+    return this.http.post<User>(this.userUrl,user, {headers: headers})
     .pipe(
       tap(user => console.log(JSON.stringify(user))),
       catchError(this.handleError)

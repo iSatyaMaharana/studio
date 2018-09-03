@@ -1,42 +1,109 @@
 import { User } from "../shared/user";
-import * as rootState from '../../../state/app.state';
-import { UserActionType, EnUserAction } from "./user.action";
+import * as fromRoot from '../../../state/app.state';
+import { UserActions, UserActionType } from "./user.action";
+import { createFeatureSelector, createSelector } from "@ngrx/store";
 
-export interface State extends rootState.State {
-    users : Array<User>;
+export interface AppState extends fromRoot.AppState {
+    users : Array<UserState>;
 }
 
 export interface UserState {
     currentUserId: number;
+    currentUser: User;
     users: Array<User>;
     disabledIDColumn: boolean;
     error: string;
     
 }
-
+// Initialize User State
 const initialUserState : UserState = {
     currentUserId: null,
+    currentUser: null,
     users: [],
     disabledIDColumn: false,
     error:''
 
 }
+//Selectors 
+const getUserFeatureState = 
+    createFeatureSelector<UserState>('users');
 
-export function reducer(state = initialUserState, action : UserActionType) : UserState {
+export const getDisableIDColumns =
+    createSelector(
+        getUserFeatureState,
+        state => state.disabledIDColumn
+    );
+export const getUsers = 
+    createSelector(
+        getUserFeatureState,
+        state => state.users
+    );
+export const getCurrentUser = 
+    createSelector(
+        getUserFeatureState,
+        state => state.currentUser
+    );
+
+export const getCurrentUserID = 
+    createSelector(
+        getUserFeatureState,
+        state => state.currentUserId
+    );
+
+export const getCurrentUserByID =
+    createSelector(
+        getUserFeatureState,
+        getCurrentUserID,
+        (state, currentProductId) => state.users.find(t => t.id == currentProductId)
+    );
+
+
+
+
+export function reducer(state: UserState = initialUserState, action : UserActions) : UserState {
     switch(action.type) {
-        case EnUserAction.ToggleDisplayIDColumn:
+        case UserActionType.ToggleDisplayIDColumn:
             return {
                 ...state,
                 disabledIDColumn : action.payload
             };
-        case EnUserAction.CreateUserSuccess:
+        case UserActionType.SetCurrentUser:
+            return {
+                ...state,
+                currentUser : action.payload,
+                currentUserId : action.payload.id
+
+            }
+        case UserActionType.InitializeCurrentUser:
+            return {
+                ...state,
+                currentUser: {
+                    id: 0,
+                    firstName:'',
+                    lastName:'',
+                    email: '',
+                    mobile: '',
+                    password:'',
+                    confirmPassword:''
+                },
+                currentUserId : 0
+            };
+        
+        case UserActionType.ClearCurrentUser:
+            return {
+                ...state,
+                currentUser: null,
+                currentUserId : null
+            };
+        
+        case UserActionType.CreateUserSuccess:
             return {
                 ...state,
                 users : [...state.users, action.payload],
                 currentUserId: action.payload.id,
                 error : '',
             };
-        case EnUserAction.CreateUserFail:
+        case UserActionType.CreateUserFail:
             return {
                 ...state,
                 error: action.payload

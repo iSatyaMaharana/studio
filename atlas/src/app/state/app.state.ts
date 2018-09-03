@@ -1,3 +1,3 @@
-export interface State {
-    
+export interface AppState {
+    hideWelcomePage : boolean;
 }
