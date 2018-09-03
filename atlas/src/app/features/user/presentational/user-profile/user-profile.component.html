@@ -29,7 +29,8 @@
               </mat-form-field>
 
               <mat-form-field class="form-width">
-                  <input matInput [type]="email" placeholder="Email" formControlName="email" [errorStateMatcher]="matcher" >
+
+                  <input matInput type="text" placeholder="Email" formControlName="email" [errorStateMatcher]="matcher" >
                   <mat-hint>(e.g) user@domain.com</mat-hint>
                   <mat-error *ngIf="userProfileForm.get('email').hasError('email') && !userProfileForm.get('email').hasError('required')">Please enter valid email Id</mat-error>
                   <mat-error *ngIf="userProfileForm.get('email').hasError('required')">E-mail is required</mat-error>

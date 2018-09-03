@@ -45,7 +45,11 @@ export class ManageUserPageComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   ngOnInit() {
-    this.getUsers();
+    this._store.dispatch(new userActions.Load());
+    //this.getUsers();
+    this._store.pipe(select(fromUser.getUsers)).subscribe(
+      (users : User[]) => this.setUserTableDataSource(users)
+    );
     this._store.pipe(select(fromUser.getDisableIDColumns)).subscribe(  
       disableIdColumn =>  {
         this.disableIdColumn = disableIdColumn
@@ -53,13 +57,13 @@ export class ManageUserPageComponent implements OnInit {
     this.setUserDisplayColumn(); //console.log(this._userService.users());
   }
 
-  getUsers() {
-    this._userService.getUsers().subscribe(
-      (users: User[]) => this.setUserTableDataSource(users),
-      (err: any) => console.log(err),
-      () => console.log('Finished !')
-    );
-  }
+  // getUsers() {
+  //   this._userService.getUsers().subscribe(
+  //     (users: User[]) => this.setUserTableDataSource(users),
+  //     (err: any) => console.log(err),
+  //     () => console.log('Finished !')
+  //   );
+  // }
 
   setUserTableDataSource(users : User[]){
     this.users = new MatTableDataSource<User>(users);

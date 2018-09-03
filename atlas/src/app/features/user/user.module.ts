@@ -6,6 +6,8 @@ import { UserProfilePageComponent } from './container/user-profile-page/user-pro
 import { ManageUserPageComponent } from './container/manage-user-page/manage-user-page.component';
 import { StoreModule } from '@ngrx/store';
 import { reducer } from './state/user.reducer';
+import { UserEffects } from './state/user.effect';
+import { EffectsModule } from '@ngrx/effects';
 
 
 
@@ -15,6 +17,7 @@ import { reducer } from './state/user.reducer';
     UserRoutingModule,
     MaterialDesignModule,
     StoreModule.forFeature('users', reducer),
+    EffectsModule.forFeature([UserEffects])
     
 
   ],

@@ -88,6 +88,13 @@ export function reducer(state: UserState = initialUserState, action : UserAction
                 },
                 currentUserId : 0
             };
+
+        case UserActionType.LoadSuccess:
+        return {
+                ...state,
+                users : action.payload
+        }
+
         
         case UserActionType.ClearCurrentUser:
             return {
