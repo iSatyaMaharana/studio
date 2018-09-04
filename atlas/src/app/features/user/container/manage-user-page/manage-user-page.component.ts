@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { UserService } from '../../shared/user.service';
 import { User } from '../../shared/user';
 import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
@@ -9,6 +9,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { animate, trigger, state, transition, style } from '@angular/animations';
 import * as fromUser from '../../state/user.reducer';
 import { Router } from '@angular/router';
+import { takeWhile } from 'rxjs/operators';
 
 
 @Component({
@@ -23,8 +24,9 @@ import { Router } from '@angular/router';
     ])
   ]
 })
-export class ManageUserPageComponent implements OnInit {
+export class ManageUserPageComponent implements OnInit, OnDestroy {
   
+  componentActive = true
   constructor(
     private _userService : UserService,
     private _store: Store<fromUser.AppState>,
@@ -47,14 +49,22 @@ export class ManageUserPageComponent implements OnInit {
   ngOnInit() {
     this._store.dispatch(new userActions.Load());
     //this.getUsers();
-    this._store.pipe(select(fromUser.getUsers)).subscribe(
+    this._store.pipe(select(fromUser.getUsers),
+    takeWhile(() => this.componentActive)).subscribe(
       (users : User[]) => this.setUserTableDataSource(users)
     );
-    this._store.pipe(select(fromUser.getDisableIDColumns)).subscribe(  
+
+    this._store.pipe(select(fromUser.getDisableIDColumns),
+    takeWhile(() => this.componentActive))
+    .subscribe(  
       disableIdColumn =>  {
         this.disableIdColumn = disableIdColumn
       });
     this.setUserDisplayColumn(); //console.log(this._userService.users());
+  }
+
+  ngOnDestroy() {
+    this.componentActive = true;
   }
 
   // getUsers() {
