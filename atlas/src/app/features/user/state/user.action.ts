@@ -11,8 +11,14 @@ export enum UserActionType {
     LoadSuccess = '[User] Load Success',
     LoadFail = '[User] Load Failure',
     CreateUser = '[User] Create User',
-    CreateUserSuccess = '[User] Create User',
+    CreateUserSuccess = '[User] Create User Success',
     CreateUserFail = '[User] Create Fail',
+    UpdateUser = '[User] Update User',
+    UpdateUserSuccess = '[User] Update User Success',
+    UpdateUserFail = '[User] Update User Fail',
+    DeleteUser = '[User] Delete User',
+    DeleteUserSuccess = '[User] Delete User Success',
+    DeleteUserFail = '[User] Delete User Fail'
 }
 
 
@@ -29,7 +35,7 @@ export class SetCurrentUser implements Action {
     /**
      *
      */
-    constructor(public payload : User) {
+    constructor(public payload : number) {
         
 
     }
@@ -112,6 +118,72 @@ export class LoadFail implements Action {
     }
 }
 
+export class UpdateUserSuccess implements Action {
+    readonly type = UserActionType.UpdateUserSuccess
+    /**
+     *
+     */
+    constructor(public payload : User) {
+        
+
+    }
+}
+
+export class UpdateUserFail implements Action {
+    readonly type = UserActionType.UpdateUserFail;
+    /**
+     *
+     */
+    constructor(public payload: string) {
+       
+        
+    }
+}
+
+export class UpdateUser implements Action {
+    readonly type = UserActionType.UpdateUser
+
+    /**
+     *
+     */
+    constructor(public payload : User) {
+    
+        
+    }
+}
+
+export class DeleteUser implements Action {
+    readonly type = UserActionType.DeleteUser;
+    /**
+     *
+     */
+    constructor(public payload : number) {
+        
+
+    }
+}
+
+export class DeleteUserSuccess implements Action {
+    readonly type = UserActionType.DeleteUserSuccess;
+    /**
+     *
+     */
+    constructor(public payload : number) {
+       
+        
+    }
+}
+
+export class DeleteUserFail implements Action {
+    readonly type = UserActionType.DeleteUserFail;
+    /**
+     *
+     */
+    constructor(public payload : string) {
+
+    }
+}
+
 export type UserActions = CreateUser
     | SetCurrentUser
     | ClearCurrentUser
@@ -121,4 +193,10 @@ export type UserActions = CreateUser
     | LoadFail
     | CreateUserSuccess
     | CreateUserFail
+    | UpdateUser
+    | UpdateUserSuccess
+    | UpdateUserFail
+    | DeleteUser
+    | DeleteUserSuccess
+    | DeleteUserFail
     | ToggleDisplayIDColumn;

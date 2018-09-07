@@ -60,17 +60,14 @@ export class UserProfileComponent implements OnInit {
     if(this.id == 0) {
       return;
     }
-    if(this.isAddMode()) {
-      this._store.pipe(select(fromUser.getCurrentUser))
-      .subscribe(
-        currentUser => this.setUserFormValue(currentUser)
-      );
-    } else {
-      this._store.pipe(select(fromUser.getCurrentUser))
-      .subscribe(
-        currentUser => this.setUserFormValue(currentUser)
-      );
-    }
+    this._store.pipe(select(fromUser.getCurrentUserByID))
+    .subscribe(
+      currentUser => this.setUserFormValue(currentUser)
+    );
+ 
+    // if(this.isAddMode()) {
+     
+    // }
   }
   setUserFormValue(user : User | null) {
     this.user = user;
@@ -132,11 +129,11 @@ export class UserProfileComponent implements OnInit {
         this._entityService.merge(this.user, this.userProfileForm.value);
         console.log(this.user);
         if(this.user.id == 0) {
-          this._userService.createUser(this.user)
-          .subscribe(user => console.log(user));
+          this._store.dispatch(new userActions.CreateUser(this.user));
         } else {
-          this._userService.updateUser(this.user)
-          .subscribe(user => console.log(user));
+          // this._userService.updateUser(this.user)
+          // .subscribe(user => console.log(user));
+          this._store.dispatch(new userActions.UpdateUser(this.user));
         }
       }
     }

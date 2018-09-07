@@ -8,8 +8,7 @@ export interface AppState extends fromRoot.AppState {
 }
 
 export interface UserState {
-    currentUserId: number;
-    currentUser: User;
+    currentUserId: number | null;
     users: Array<User>;
     disabledIDColumn: boolean;
     error: string;
@@ -18,7 +17,6 @@ export interface UserState {
 // Initialize User State
 const initialUserState : UserState = {
     currentUserId: null,
-    currentUser: null,
     users: [],
     disabledIDColumn: false,
     error:''
@@ -38,11 +36,11 @@ export const getUsers =
         getUserFeatureState,
         state => state.users
     );
-export const getCurrentUser = 
-    createSelector(
-        getUserFeatureState,
-        state => state.currentUser
-    );
+// export const getCurrentUser = 
+//     createSelector(
+//         getUserFeatureState,
+//         state => state.currentUser
+//     );
 
 export const getCurrentUserID = 
     createSelector(
@@ -54,7 +52,21 @@ export const getCurrentUserByID =
     createSelector(
         getUserFeatureState,
         getCurrentUserID,
-        (state, currentProductId) => state.users.find(t => t.id == currentProductId)
+        (state, currentUserId) => {
+            if(currentUserId == 0) {
+                return {
+                    id: 0,
+                    firstName:'',
+                    lastName:'',
+                    email: '',
+                    mobile: '',
+                    password:'',
+                    confirmPassword:''
+                };
+            } else {
+                return currentUserId ? state.users.find(t => t.id == currentUserId) : null;
+            }
+        }
     );
 
 
@@ -70,22 +82,13 @@ export function reducer(state: UserState = initialUserState, action : UserAction
         case UserActionType.SetCurrentUser:
             return {
                 ...state,
-                currentUser : action.payload,
-                currentUserId : action.payload.id
+                //currentUser : action.payload,
+                currentUserId : action.payload
 
             }
         case UserActionType.InitializeCurrentUser:
             return {
                 ...state,
-                currentUser: {
-                    id: 0,
-                    firstName:'',
-                    lastName:'',
-                    email: '',
-                    mobile: '',
-                    password:'',
-                    confirmPassword:''
-                },
                 currentUserId : 0
             };
 
@@ -99,7 +102,6 @@ export function reducer(state: UserState = initialUserState, action : UserAction
         case UserActionType.ClearCurrentUser:
             return {
                 ...state,
-                currentUser: null,
                 currentUserId : null
             };
         
@@ -115,6 +117,26 @@ export function reducer(state: UserState = initialUserState, action : UserAction
                 ...state,
                 error: action.payload
             };
+        case UserActionType.UpdateUserSuccess:
+            const updatedUsers = state.users
+                .map(item => action.payload.id == item.id ? action.payload : item);
+            return {
+                ...state,
+                users : updatedUsers,
+                currentUserId : action.payload.id,
+                error : '',
+
+            };
+        case UserActionType.UpdateUserFail:
+            return {
+                ...state,
+                error: action.payload
+            }
+        // case UserActionType.DeleteUserSuccess:
+
+        //     return {
+                
+        //     }
         default:
             return state;
 

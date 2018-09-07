@@ -119,7 +119,7 @@ export class ManageUserPageComponent implements OnInit, OnDestroy {
   }
   
   editUser(user : User) {
-    this._store.dispatch(new userActions.SetCurrentUser(user));
+    this._store.dispatch(new userActions.SetCurrentUser(user.id));
     this._router.navigate(['/user', user.id])
   }
 
