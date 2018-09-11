@@ -12,7 +12,7 @@ import { UserService } from '../../shared/user.service';
 
 export class MyErrorStateMatcher extends ErrorStateMatcher {
   isErrorState(control: FormControl | null, form : FormGroupDirective | NgForm | null) {
-    console.log(form);
+    //console.log(form);
     const isSubmitted = form && form.submitted;
     return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
   }
@@ -74,7 +74,7 @@ export class UserProfileComponent implements OnInit {
     if(this.user) {
       this.userProfileForm.reset();
       // Display the appropriate page title
-      if (this.user.id === 0) {
+      if (this.user._id === '') {
         this.pageTitle = 'Add Product';
       } else {
         this.pageTitle = `Edit Product: ${this.user.firstName}`;
@@ -128,7 +128,7 @@ export class UserProfileComponent implements OnInit {
         //const user = this._entityService.clone<User>(this.userProfileForm.value);
         this._entityService.merge(this.user, this.userProfileForm.value);
         console.log(this.user);
-        if(this.user.id == 0) {
+        if(this.user._id == '') {
           this._store.dispatch(new userActions.CreateUser(this.user));
         } else {
           // this._userService.updateUser(this.user)

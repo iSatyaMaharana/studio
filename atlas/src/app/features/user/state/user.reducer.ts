@@ -8,7 +8,7 @@ export interface AppState extends fromRoot.AppState {
 }
 
 export interface UserState {
-    currentUserId: number | null;
+    currentUserId: string;
     users: Array<User>;
     disabledIDColumn: boolean;
     error: string;
@@ -53,9 +53,9 @@ export const getCurrentUserByID =
         getUserFeatureState,
         getCurrentUserID,
         (state, currentUserId) => {
-            if(currentUserId == 0) {
+            if(currentUserId == '') {
                 return {
-                    id: 0,
+                    _id: '',
                     firstName:'',
                     lastName:'',
                     email: '',
@@ -64,7 +64,7 @@ export const getCurrentUserByID =
                     confirmPassword:''
                 };
             } else {
-                return currentUserId ? state.users.find(t => t.id == currentUserId) : null;
+                return currentUserId ? state.users.find(t => t._id == currentUserId) : null;
             }
         }
     );
@@ -89,7 +89,7 @@ export function reducer(state: UserState = initialUserState, action : UserAction
         case UserActionType.InitializeCurrentUser:
             return {
                 ...state,
-                currentUserId : 0
+                currentUserId : ''
             };
 
         case UserActionType.LoadSuccess:
@@ -109,7 +109,7 @@ export function reducer(state: UserState = initialUserState, action : UserAction
             return {
                 ...state,
                 users : [...state.users, action.payload],
-                currentUserId: action.payload.id,
+                currentUserId: action.payload._id,
                 error : '',
             };
         case UserActionType.CreateUserFail:
@@ -119,11 +119,11 @@ export function reducer(state: UserState = initialUserState, action : UserAction
             };
         case UserActionType.UpdateUserSuccess:
             const updatedUsers = state.users
-                .map(item => action.payload.id == item.id ? action.payload : item);
+                .map(item => action.payload._id == item._id ? action.payload : item);
             return {
                 ...state,
                 users : updatedUsers,
-                currentUserId : action.payload.id,
+                currentUserId : action.payload._id,
                 error : '',
 
             };
@@ -132,11 +132,20 @@ export function reducer(state: UserState = initialUserState, action : UserAction
                 ...state,
                 error: action.payload
             }
-        // case UserActionType.DeleteUserSuccess:
-
-        //     return {
-                
-        //     }
+        case UserActionType.DeleteUserSuccess:
+            return {
+                ...state,
+                users: state.users.filter(user => user._id !== action.payload),
+                currentUserId: null,
+                error: ''
+            };
+        case UserActionType.DeleteUserFail:
+            return {
+                ...state,
+                currentUserId:null,
+                error: action.payload
+            };
+            
         default:
             return state;
 

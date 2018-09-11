@@ -93,7 +93,7 @@ export class ManageUserPageComponent implements OnInit, OnDestroy {
     if(this.disableIdColumn) {
       this.displayedColumns = [ 'select', 'firstName', 'lastName', 'email', 'mobile','action'];
     } else {
-      this.displayedColumns = [ 'select', 'id', 'firstName', 'lastName', 'email', 'mobile', 'action'];
+      this.displayedColumns = [ 'select', '_id', 'firstName', 'lastName', 'email', 'mobile', 'action'];
     }
   }
 
@@ -119,14 +119,14 @@ export class ManageUserPageComponent implements OnInit, OnDestroy {
   }
   
   editUser(user : User) {
-    this._store.dispatch(new userActions.SetCurrentUser(user.id));
-    this._router.navigate(['/user', user.id])
+    this._store.dispatch(new userActions.SetCurrentUser(user._id));
+    this._router.navigate(['/user', user._id])
   }
 
   deleteUser(user : User): void {
     console.log(user);
-    if(user && user.id) {
-      this._userService.deleteUser(user.id).subscribe(
+    if(user && user._id) {
+      this._userService.deleteUser(user._id).subscribe(
         response => console.log(response)
       );
     } else {

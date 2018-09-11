@@ -41,8 +41,8 @@ import { HttpClientModule } from '@angular/common/http';
       logOnly: environment.production,
     }),
     HttpClientModule,
-    HttpClientInMemoryWebApiModule.forRoot(
-      UserInMemoryDataService, { dataEncapsulation: false})
+    // HttpClientInMemoryWebApiModule.forRoot(
+    //   UserInMemoryDataService, { dataEncapsulation: false})
   ],
   providers: [],
   bootstrap: [AppComponent]

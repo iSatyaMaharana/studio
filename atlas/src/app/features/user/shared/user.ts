@@ -1,9 +1,16 @@
+import { ServerResponse } from "../../../core/server/core.server-response";
+
 export interface User {
-    id: number | null;
+    _id: string | null;
     firstName:string;
     lastName:string;
     email: string;
     mobile: string;
     password:string;
     confirmPassword:string;
+}
+
+export interface UserResponse extends ServerResponse {
+    results : User[];       
+    resultCount: number;
 }

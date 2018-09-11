@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
-import { User } from './user';
+import { User, UserResponse } from './user';
 
 const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 @Injectable({
@@ -10,30 +10,30 @@ const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 })
 export class UserService {
 
-  private userUrl = 'api/users';
+  private userUrl = 'http://localhost:3000/api/v1/users';
   constructor(private http : HttpClient) { }
 
-  public getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.userUrl)
+  public getUsers(): Observable<UserResponse> {
+    return this.http.get<UserResponse>(this.userUrl)
     .pipe(
       tap(users => console.log(JSON.stringify(users))),
       catchError(this.handleError)
     )
   }
 
-  createUser(user : User):Observable<User> {
-    user.id = null;
-    return this.http.post<User>(this.userUrl,user, {headers: headers})
+  createUser(user : User):Observable<UserResponse> {
+    user._id = null;
+    return this.http.post<UserResponse>(this.userUrl,user, {headers: headers})
     .pipe(
       tap(user => console.log(JSON.stringify(user))),
       catchError(this.handleError)
     )
   }
-  deleteUser(id : number): Observable<{}> {
-    const url = `${this.userUrl}/${id}`;
-    return this.http.delete<User>(url, { headers : headers})
+  deleteUser(_id : string): Observable<{}> {
+    const url = `${this.userUrl}/${_id}`;
+    return this.http.delete(url, { headers : headers})
     .pipe(
-      tap(data => console.log('deleteProduct: ' + id)),
+      tap(data => console.log('deleteProduct: ' + _id)),
       // tap(data => {
       //   const foundIndex = this.products.findIndex(item => item.id === id);
       //   if (foundIndex > -1) {
@@ -44,12 +44,12 @@ export class UserService {
     );
   }
 
-  updateUser(user : User) : Observable<User> {
-    const url = `${this.userUrl}/${user.id}`;
-    return this.http.put<User>(url, user, { headers: headers })
+  updateUser(user : User) : Observable<UserResponse> {
+    const url = `${this.userUrl}/${user._id}`;
+    return this.http.put<UserResponse>(url, user, { headers: headers })
       .pipe(
-        tap(() => console.log('updateUser: ' + user.id)),
-        map(() => user),
+        tap(() => console.log('updateUser: ' + user._id)),
+        //map(() => user),
         catchError(this.handleError)
       );
   }

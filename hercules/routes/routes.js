@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 
- const Contact = require("../models/Contact");
+ const User = require("../models/user.model");
 
-router.get('/contacts', (req, res, next) => {
+router.get('/users', (req, res, next) => {
    // var query = req.query;
    //sanitize the request on random query param
    var query = {}
@@ -22,7 +22,7 @@ router.get('/contacts', (req, res, next) => {
     
 });
 
-router.use('/contacts/:contactId', (req, res, next) => {
+router.use('/users/:id', (req, res, next) => {
     
     Contact.findById(req.params.contactId, (err, contact) => {
         if(err) {
@@ -39,7 +39,7 @@ router.use('/contacts/:contactId', (req, res, next) => {
     
 });
 
-router.route('/contacts/:contactId')
+router.route('/users/:id')
 .put((req, res) => {
 
     
@@ -97,7 +97,7 @@ router.route('/contacts/:contactId')
     });
  });
 
-router.post('/contact', (req, res, next) => {
+router.post('/users', (req, res, next) => {
     let newContact = new Contact({
         first_name : req.body.first_name,
         last_name : req.body.last_name,
@@ -114,7 +114,7 @@ router.post('/contact', (req, res, next) => {
     });
 });
 
-router.delete('/contact/:id', (req, res, next) => {
+router.delete('/users/:id', (req, res, next) => {
     Contact.remove({_id : req.params.id}, (err, result) => {
         if(err) {
             res.json(err);

@@ -3,20 +3,23 @@ const User = require("../models/user.model");
 let userRoutes = () => {
     
 let createUser = (req, res, next) => {
-   // console.log(req.body);
+    console.log(req.body);
+    console.log(req.body.firstName);
     let user = new User({
         first_name : req.body.firstName,
         last_name : req.body.lastName,
         email: req.body.email,
         mobile: req.body.mobile,
+        password: req.body.password
     });
 
+    console.log(user);
     
     user.save((err) => {
         if(err) {
             next(err);
         } else {
-            res.status(201).send({message : "User has been created Successfully", result: user});
+            res.status(201).send({message : "User has been created Successfully", results: [user]});
         }
     });
 };
@@ -31,19 +34,21 @@ let updateUser = (req, res, next) => {
         if(err) {
             next(err);
         }else {
-            res.status(201).send({message : "User has been updated Successfully", result: req.user});
+            console.log(req.user);
+            res.status(201).send({message : "User has been updated Successfully", results: [req.user]});
         }
     });
 };
 
 let deleteUser = (req, res, next) => {
-    User.remove({_id : req.params.id}, (err, result) => {
+    console.log(req);
+    User.remove({_id : req.user._id}, (err, result) => {
         if(err) {
             next(err);
         } else {
-            res.status(204).send({message : "User has been Deleted Successfully", result: req.user});
+            res.status(204).send({message : "User has been Deleted Successfully", results: [req.user]});
         }
-    });
+    })
 };
 
 let getUsers = (req, res, next) => {
@@ -56,7 +61,7 @@ let getUsers = (req, res, next) => {
         if(err) {
             next(err);
         } else {
-            res.status(200).send({message : "Users has been fetched", result: users});
+            res.status(200).send({message : "Users has been fetched", results: users});
         }
     });
 };

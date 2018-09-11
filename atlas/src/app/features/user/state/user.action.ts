@@ -35,7 +35,7 @@ export class SetCurrentUser implements Action {
     /**
      *
      */
-    constructor(public payload : number) {
+    constructor(public payload : string) {
         
 
     }
@@ -157,7 +157,7 @@ export class DeleteUser implements Action {
     /**
      *
      */
-    constructor(public payload : number) {
+    constructor(public payload : string) {
         
 
     }
@@ -168,7 +168,7 @@ export class DeleteUserSuccess implements Action {
     /**
      *
      */
-    constructor(public payload : number) {
+    constructor(public payload : string) {
        
         
     }
