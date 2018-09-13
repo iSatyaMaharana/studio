@@ -12,8 +12,20 @@
         </div>
     </div>
 
+    <atlas-manage-user-profiles
+        [errorMessage]="errorMessage$ | async"
+        [disableIDColumn]=" disableIDColumn$ | async"
+        [users]="users$"
+        (checked) ="checkChanged($event)"
+        (selectedEdit)="editUser($event)"
+        (selectedDelete)="deleteUser($event)"
+       
+    ></atlas-manage-user-profiles>
+
     
     
+    <!-- 
+    (selected)="productSelected($event)" -->
     
 </div>
 <button mat-fab color="primary" id="add-user-button" (click)="addUser()"><mat-icon class="mat-icon" role="img" aria-hidden="true">person_add</mat-icon></button>

@@ -1,15 +1,13 @@
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../shared/user.service';
 import { User } from '../../shared/user';
-import { MatTableDataSource, MatPaginator, MatSort } from '@angular/material';
 import { Store } from '@ngrx/store';
 import * as userActions from '../../state/user.action';
 import { select } from '@ngrx/store';
-import { SelectionModel } from '@angular/cdk/collections';
 import { animate, trigger, state, transition, style } from '@angular/animations';
 import * as fromUser from '../../state/user.reducer';
 import { Router } from '@angular/router';
-import { takeWhile } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -24,9 +22,15 @@ import { takeWhile } from 'rxjs/operators';
     ])
   ]
 })
-export class ManageUserPageComponent implements OnInit, OnDestroy {
+export class ManageUserPageComponent implements OnInit {
   
-  componentActive = true
+  errorMessage$ : Observable<string>;
+  disableIDColumn$ : Observable<boolean>;
+   
+  users$ : Observable<User[]>;
+  
+  
+  //componentActive = true
   constructor(
     private _userService : UserService,
     private _store: Store<fromUser.AppState>,
@@ -34,104 +38,14 @@ export class ManageUserPageComponent implements OnInit, OnDestroy {
   ) { }
 
 
-  users : MatTableDataSource<User>;
-  selection = new SelectionModel<User>(true, []);
-
-  
-  displayedColumns: string[];
-  disableIdColumn = false;
-
-
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-
   ngOnInit() {
     this._store.dispatch(new userActions.Load());
-    //this.getUsers();
-    this._store.pipe(select(fromUser.getUsers),
-    takeWhile(() => this.componentActive)).subscribe(
-      (users : User[]) => this.setUserTableDataSource(users)
-    );
 
-    this._store.pipe(select(fromUser.getDisableIDColumns),
-    takeWhile(() => this.componentActive))
-    .subscribe(  
-      disableIdColumn =>  {
-        this.disableIdColumn = disableIdColumn
-      });
-    this.setUserDisplayColumn(); //console.log(this._userService.users());
-  }
-
-  ngOnDestroy() {
-    this.componentActive = true;
-  }
-
-  // getUsers() {
-  //   this._userService.getUsers().subscribe(
-  //     (users: User[]) => this.setUserTableDataSource(users),
-  //     (err: any) => console.log(err),
-  //     () => console.log('Finished !')
-  //   );
-  // }
-
-  setUserTableDataSource(users : User[]){
-    this.users = new MatTableDataSource<User>(users);
-    this.users.paginator = this.paginator;
-    this.users.sort = this.sort;
-
-  }
-
-  onDisableId(event) {
-    this._store.dispatch(new userActions.ToggleDisplayIDColumn(event.checked));
-    console.log(this.selection);
+    this.users$ = this._store.pipe(select(fromUser.getUsers));
     
-    this.setUserDisplayColumn();
-  }
+    this.errorMessage$ = this._store.pipe(select(fromUser.getUserError));
 
-  setUserDisplayColumn() {
-    if(this.disableIdColumn) {
-      this.displayedColumns = [ 'select', 'firstName', 'lastName', 'email', 'mobile','action'];
-    } else {
-      this.displayedColumns = [ 'select', '_id', 'firstName', 'lastName', 'email', 'mobile', 'action'];
-    }
-  }
-
-  applyFilter(filterValue : string) {
-    this.users.filter = filterValue.trim().toLowerCase();
-  }
-
-  checkedMethod() {
-    console.log(this.selection);
-  }
-
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.users.data.length;
-    return numSelected == numRows;
-  }
-  
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  masterToggle() {
-    this.isAllSelected() ?
-      this.selection.clear() :
-      this.users.data.forEach(row => this.selection.select(row));
-  }
-  
-  editUser(user : User) {
-    this._store.dispatch(new userActions.SetCurrentUser(user._id));
-    this._router.navigate(['/user', user._id])
-  }
-
-  deleteUser(user : User): void {
-    console.log(user);
-    if(user && user._id) {
-      this._userService.deleteUser(user._id).subscribe(
-        response => console.log(response)
-      );
-    } else {
-      console.log("Invalid Product");
-    }
+    this.disableIDColumn$ = this._store.pipe(select(fromUser.getDisableIDColumns));
     
   }
 
@@ -140,5 +54,22 @@ export class ManageUserPageComponent implements OnInit, OnDestroy {
     this._router.navigate(['/user', 'new']);
   }
 
+  checkChanged(event : boolean) {
+    this._store.dispatch(new userActions.ToggleDisplayIDColumn(event));
+  }
+
+  editUser(user : User) {
+    if(user && user._id) {
+      this._store.dispatch(new userActions.SetCurrentUser(user._id));
+      this._router.navigate(['/user', user._id])
+    }
+    
+  }
+
+  deleteUser(user: User) : void {
+    if(user && user._id) {
+      this._store.dispatch(new userActions.DeleteUser(user._id));
+    }
+  }
 
 }

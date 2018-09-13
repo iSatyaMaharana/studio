@@ -36,6 +36,12 @@ export const getUsers =
         getUserFeatureState,
         state => state.users
     );
+
+export const getUserError = 
+    createSelector(
+        getUserFeatureState,
+        state => state.error
+    );
 // export const getCurrentUser = 
 //     createSelector(
 //         getUserFeatureState,
